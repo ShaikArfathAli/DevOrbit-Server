@@ -50,7 +50,10 @@ authRouter.post("/login", async (req, res) => {
         sameSite: isProd ? "None" : "Lax",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       });
-      res.send(user);
+      const userResponse = user.toObject();
+      delete userResponse.password;
+
+      res.send(userResponse);    
     } else {
       throw new Error("Invalid password");
     }
